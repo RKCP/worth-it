@@ -4,5 +4,5 @@ public record PurchaseDecisionResponse(
         String itemName,
         double price,
         double futureValue,
-        float interestGained,
+        double interestGained,
         String message) {}
