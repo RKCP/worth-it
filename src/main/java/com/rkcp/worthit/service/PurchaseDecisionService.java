@@ -5,6 +5,7 @@ import com.rkcp.worthit.dto.PurchaseDecisionResponse;
 import com.rkcp.worthit.util.CompoundInterestCalculator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import java.math.RoundingMode;
 
 import java.math.BigDecimal;
 
@@ -28,21 +29,25 @@ public class PurchaseDecisionService {
 
     public PurchaseDecisionResponse generatePurchaseDecision(PurchaseDecisionRequest pdRequest) {
         // Break down request
+        String itemName = pdRequest.itemName();
+        BigDecimal itemPrice = pdRequest.price();
+        int yearsToOwn = pdRequest.expectedOwnershipPeriod();
 
         // call compound interest calculator
         CompoundInterestCalculator cic = new CompoundInterestCalculator();
         BigDecimal compoundInterest = cic.calculate(
-                pdRequest.price(),
-                pdRequest.expectedOwnershipPeriod(),
-                defaultReturnRate); // TODO: change this to a dynamic rate
+                itemPrice,
+                yearsToOwn,
+                BigDecimal.valueOf(0.08)); // TODO: change this to a dynamic rate
+        BigDecimal diff = compoundInterest.subtract(itemPrice);
 
         // create resp and return
-
         return new PurchaseDecisionResponse(
-                "AirPods Max",
-                BigDecimal.valueOf(499.00),
-                BigDecimal.valueOf(1077.30),
-                        BigDecimal.valueOf(578.30),
-                "Buying AirPods Max today could cost you £578.30 in future growth over 10 years.");
+                itemName,
+                itemPrice,
+                compoundInterest.setScale(2, RoundingMode.HALF_UP),
+                diff,
+                String.format("Buying %s today could cost you %s in future growth over %s years.",
+                        itemName, compoundInterest, yearsToOwn));
     }
 }
