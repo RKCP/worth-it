@@ -33,9 +33,9 @@ public class PurchaseDecisionService {
 
         return new PurchaseDecisionResponse(
                 "AirPods Max",
-                499.00,
-                1077.30,
-                578.30,
+                BigDecimal.valueOf(499.00),
+                BigDecimal.valueOf(1077.30),
+                        BigDecimal.valueOf(578.30),
                 "Buying AirPods Max today could cost you £578.30 in future growth over 10 years.");
     }
 }

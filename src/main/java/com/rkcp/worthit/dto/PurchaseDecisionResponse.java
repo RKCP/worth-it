@@ -1,8 +1,10 @@
 package com.rkcp.worthit.dto;
 
+import java.math.BigDecimal;
+
 public record PurchaseDecisionResponse(
         String itemName,
-        double price,
-        double futureValue,
-        double interestGained,
+        BigDecimal price,
+        BigDecimal futureValue,
+        BigDecimal interestGained,
         String message) {}
