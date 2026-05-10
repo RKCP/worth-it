@@ -27,8 +27,9 @@ replay_pid*
 # IntelliJ IDEA
 .idea/
 
-# IntelliJ project files
+# IntelliJ project files/mvn
 *.iml
+target/
 
 # Help file
 HELP.md

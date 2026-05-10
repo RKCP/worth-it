@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api")
 public class PurchaseDecisionController {
 
-    PurchaseDecisionService pdService = new PurchaseDecisionService();
+    private final PurchaseDecisionService pdService;
+
+    public PurchaseDecisionController(PurchaseDecisionService pdService) {
+        this.pdService = pdService;
+    }
 
     @GetMapping(value = "/{amount}", produces = "application/json")
     public String echoInputAmount(@PathVariable int amount) {
